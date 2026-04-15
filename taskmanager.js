@@ -106,3 +106,40 @@ function addTask(columnId, task) {
 function updateCounter() {
     taskCount.textContent = tasks.length + " Tasks";
 }
+
+//detele task
+function deleteTask(taskId) {
+
+    const card = document.querySelector('[data-id="' + taskId + '"]');
+
+    card.classList.add('fade-out');
+
+    setTimeout(() => {
+        card.remove();
+        tasks = tasks.filter(t => t.id !== taskId);
+        updateCounter();
+    }, 500);
+}
+
+//event delegation
+const lists = document.querySelectorAll('.task-list');
+
+lists.forEach(list => {
+    list.addEventListener('click', function (event) {
+
+        const action = event.target.getAttribute('data-action');
+        const id = event.target.getAttribute('data-id');
+
+        if (!action || !id) return;
+
+        const taskId = parseInt(id);
+
+        if (action === 'delete') {
+            deleteTask(taskId);
+        }
+
+        if (action === 'edit') {
+            editTask(taskId);
+        }
+    });
+});
