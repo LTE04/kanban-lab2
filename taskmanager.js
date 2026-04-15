@@ -79,6 +79,7 @@ function createTaskCard(task) {
     const li = document.createElement('li');
     li.setAttribute('data-id', task.id);
     li.classList.add('task-card');
+    li.setAttribute('data-priority', task.priority);
 
     const title = document.createElement('span');
     title.textContent = task.title;
@@ -274,14 +275,12 @@ document.getElementById('priority-filter').addEventListener('change', function (
 
     cards.forEach(card => {
 
-        const text = card.children[2].textContent;
-
-        const match = text.includes(value);
+        const priority = card.getAttribute('data-priority');
 
         if (value === 'all') {
             card.classList.remove('is-hidden');
         } else {
-            card.classList.toggle('is-hidden', !match);
+            card.classList.toggle('is-hidden', priority !== value);
         }
     });
 });
