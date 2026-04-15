@@ -10,3 +10,16 @@ const saveBtn = document.getElementById('save-task');
 const cancelBtn = document.getElementById('cancel-task');
 const addButtons = document.querySelectorAll('.add-btn');
 const taskCount = document.getElementById('task-count');
+
+// Open modal
+addButtons.forEach(btn => {
+    btn.addEventListener('click', function () {
+        modal.classList.remove('hidden');
+        currentColumn = btn.getAttribute('data-column');
+    });
+});
+
+// Close modal
+cancelBtn.addEventListener('click', function () {
+    modal.classList.add('hidden');
+});
