@@ -192,3 +192,29 @@ function updateTask(taskId, data) {
     card.children[3].textContent = data.date;
 }
 
+//inline editing
+lists.forEach(list => {
+    list.addEventListener('dblclick', function (event) {
+
+        if (event.target.tagName !== 'SPAN') return;
+
+        const span = event.target;
+        const input = document.createElement('input');
+
+        input.value = span.textContent;
+
+        span.replaceWith(input);
+        input.focus();
+
+        function save() {
+            span.textContent = input.value;
+            input.replaceWith(span);
+        }
+
+        input.addEventListener('blur', save);
+
+        input.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') save();
+        });
+    });
+});
