@@ -101,3 +101,8 @@ function addTask(columnId, task) {
 
     updateCounter();
 }
+
+//update counter
+function updateCounter() {
+    taskCount.textContent = tasks.length + " Tasks";
+}
