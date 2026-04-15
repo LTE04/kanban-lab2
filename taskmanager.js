@@ -37,52 +37,41 @@ saveBtn.addEventListener('click', function () {
 
     if (!title) return;
 
+    //edit
+    if (editingTaskId !== null) {
+        updateTask(editingTaskId, {
+            title,
+            description: desc,
+            priority,
+            date
+        });
+
+        editingTaskId = null;
+        modal.classList.add('hidden');
+        return;
+    }
+
+    //create mode
     const task = {
         id: currentId++,
-        title: title,
+        title,
         description: desc,
-        priority: priority,
-        date: date,
+        priority,
+        date,
         column: currentColumn
     };
 
     tasks.push(task);
-
     addTask(currentColumn, task);
 
     modal.classList.add('hidden');
+
+    // clear input
+    document.getElementById('task-title').value = '';
+    document.getElementById('task-desc').value = '';
+    document.getElementById('task-date').value = '';
 });
 
-//sample tasks
-let tasks = [
-    {
-        id: 0,
-        title: 'Finish JavaScript Lab',
-        description: 'Complete CRUD operations and event delegation section',
-        priority: 'high',
-        date: '2026-04-20',
-        column: 'todo'
-    },
-    {
-        id: 1,
-        title: 'Prepare Presentation Slides',
-        description: 'Create slides for Chapter 3 demo video',
-        priority: 'medium',
-        date: '2026-04-18',
-        column: 'inprogress'
-    },
-
-	{
-        id: 2,
-        title: 'Submit Assignment',
-        description: 'Upload all files to the learning portal',
-        priority: 'low',
-        date: '2026-04-16',
-        column: 'done'
-    }
-];
-
-let currentId = 3;
 
 //create taskCard
 function createTaskCard(task) {
@@ -121,6 +110,13 @@ function createTaskCard(task) {
     delBtn.setAttribute('data-id', task.id);
     li.appendChild(delBtn);
 
+    // Move Button
+	const moveBtn = document.createElement('button');
+	moveBtn.textContent = "Move";
+	moveBtn.setAttribute('data-action', 'move');
+	moveBtn.setAttribute('data-id', task.id);
+	li.appendChild(moveBtn);
+
     return li;
 }
 
@@ -155,6 +151,33 @@ function deleteTask(taskId) {
     }, 500);
 }
 
+//move func
+function moveTask(taskId) {
+
+    const task = tasks.find(t => t.id === taskId);
+    if (!task) return;
+
+    let nextColumn;
+
+    if (task.column === 'todo') {
+        nextColumn = 'inprogress';
+    } else if (task.column === 'inprogress') {
+        nextColumn = 'done';
+    } else {
+        return; // already in done
+    }
+
+    // remove from current UI
+    const card = document.querySelector('[data-id="' + taskId + '"]');
+    card.remove();
+
+    // update data
+    task.column = nextColumn;
+
+    // add to new column
+    addTask(nextColumn, task);
+}
+
 //event delegation
 const lists = document.querySelectorAll('.task-list');
 
@@ -175,6 +198,10 @@ lists.forEach(list => {
         if (action === 'edit') {
             editTask(taskId);
         }
+
+        if (action === 'move') {
+   	 	moveTask(taskId);
+		}
     });
 });
 
@@ -192,21 +219,6 @@ function editTask(taskId) {
     modal.classList.remove('hidden');
 
     editingTaskId = taskId;
-}
-
-//update task
-if (editingTaskId !== null) {
-
-    updateTask(editingTaskId, {
-        title,
-        description: desc,
-        priority,
-        date
-    });
-
-    editingTaskId = null;
-    modal.classList.add('hidden');
-    return;
 }
 
 function updateTask(taskId, data) {
@@ -296,6 +308,42 @@ document.getElementById('clear-done').addEventListener('click', function () {
     updateCounter();
 });
 
-tasks.forEach(task => {
-    addTask(task.column, task);
-});
+
+function loadSampleTasks() {
+
+    const sampleTasks = [
+        {
+            id: currentId++,
+            title: 'Finish JavaScript Lab',
+            description: 'Complete CRUD operations and event delegation section',
+            priority: 'high',
+            date: '2026-04-20',
+            column: 'todo'
+        },
+        {
+            id: currentId++,
+            title: 'Prepare Presentation Slides',
+            description: 'Create slides for Chapter 3 demo video',
+            priority: 'medium',
+            date: '2026-04-18',
+            column: 'inprogress'
+        },
+
+        {
+            id: currentId++,
+            title: 'Submit Assignment',
+            description: 'Upload all files to the learning portal',
+            priority: 'low',
+            date: '2026-04-16',
+            column: 'done'
+        }
+    ];
+
+    sampleTasks.forEach(task => {
+        tasks.push(task);
+        addTask(task.column, task);
+    });
+}
+
+loadSampleTasks();
+
