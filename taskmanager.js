@@ -143,3 +143,20 @@ lists.forEach(list => {
         }
     });
 });
+
+
+//edit task
+function editTask(taskId) {
+
+    const task = tasks.find(t => t.id === taskId);
+
+    document.getElementById('task-title').value = task.title;
+    document.getElementById('task-desc').value = task.description;
+    document.getElementById('task-priority').value = task.priority;
+    document.getElementById('task-date').value = task.date;
+
+    modal.classList.remove('hidden');
+
+    editingTaskId = taskId;
+}
+
