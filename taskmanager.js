@@ -146,17 +146,19 @@ lists.forEach(list => {
 
 
 //edit task
-function editTask(taskId) {
 
-    const task = tasks.find(t => t.id === taskId);
+//update task
+if (editingTaskId !== null) {
 
-    document.getElementById('task-title').value = task.title;
-    document.getElementById('task-desc').value = task.description;
-    document.getElementById('task-priority').value = task.priority;
-    document.getElementById('task-date').value = task.date;
+    updateTask(editingTaskId, {
+        title,
+        description: desc,
+        priority,
+        date
+    });
 
-    modal.classList.remove('hidden');
-
-    editingTaskId = taskId;
+    editingTaskId = null;
+    modal.classList.add('hidden');
+    return;
 }
 
