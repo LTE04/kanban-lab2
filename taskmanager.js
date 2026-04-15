@@ -53,6 +53,37 @@ saveBtn.addEventListener('click', function () {
     modal.classList.add('hidden');
 });
 
+//sample tasks
+let tasks = [
+    {
+        id: 0,
+        title: 'Finish JavaScript Lab',
+        description: 'Complete CRUD operations and event delegation section',
+        priority: 'high',
+        date: '2026-04-20',
+        column: 'todo'
+    },
+    {
+        id: 1,
+        title: 'Prepare Presentation Slides',
+        description: 'Create slides for Chapter 3 demo video',
+        priority: 'medium',
+        date: '2026-04-18',
+        column: 'inprogress'
+    },
+
+	{
+        id: 2,
+        title: 'Submit Assignment',
+        description: 'Upload all files to the learning portal',
+        priority: 'low',
+        date: '2026-04-16',
+        column: 'done'
+    }
+];
+
+let currentId = 3;
+
 //create taskCard
 function createTaskCard(task) {
 
@@ -263,4 +294,8 @@ document.getElementById('clear-done').addEventListener('click', function () {
 
     tasks = tasks.filter(t => t.column !== 'done');
     updateCounter();
+});
+
+tasks.forEach(task => {
+    addTask(task.column, task);
 });
