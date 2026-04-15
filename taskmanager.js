@@ -218,3 +218,24 @@ lists.forEach(list => {
         });
     });
 });
+
+//priority filter
+document.getElementById('priority-filter').addEventListener('change', function () {
+
+    const value = this.value;
+
+    const cards = document.querySelectorAll('.task-card');
+
+    cards.forEach(card => {
+
+        const text = card.children[2].textContent;
+
+        const match = text.includes(value);
+
+        if (value === 'all') {
+            card.classList.remove('is-hidden');
+        } else {
+            card.classList.toggle('is-hidden', !match);
+        }
+    });
+});
