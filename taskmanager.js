@@ -89,3 +89,15 @@ function createTaskCard(task) {
 
     return li;
 }
+
+//add Task
+function addTask(columnId, task) {
+
+    const column = document.querySelector('#' + columnId + ' .task-list');
+
+    const card = createTaskCard(task);
+
+    column.appendChild(card);
+
+    updateCounter();
+}
