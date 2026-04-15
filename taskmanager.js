@@ -1,3 +1,6 @@
+console.log("JS loaded");
+alert("JS connected!");
+
 // Store all tasks
 let tasks = [];
 let currentId = 0;
@@ -238,4 +241,26 @@ document.getElementById('priority-filter').addEventListener('change', function (
             card.classList.toggle('is-hidden', !match);
         }
     });
+});
+
+//clear done
+document.getElementById('clear-done').addEventListener('click', function () {
+
+    const doneList = document.querySelector('#done .task-list');
+    const cards = doneList.querySelectorAll('.task-card');
+
+    cards.forEach((card, index) => {
+
+        setTimeout(() => {
+            card.classList.add('fade-out');
+
+            setTimeout(() => {
+                card.remove();
+            }, 500);
+
+        }, index * 100);
+    });
+
+    tasks = tasks.filter(t => t.column !== 'done');
+    updateCounter();
 });
