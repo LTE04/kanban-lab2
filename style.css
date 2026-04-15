@@ -36,6 +36,9 @@ section {
     margin: 10px 0;
     padding: 10px;
     border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .hidden {
@@ -67,16 +70,6 @@ section {
 
 .is-hidden {
     display: none;
-}
-
-.task-card {
-    background: #eee;
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 6px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
 }
 
 .task-card button {
@@ -114,6 +107,17 @@ section {
     transition: all 0.5s ease;
 }
 
-.high { border-left: 5px solid red; }
-.medium { border-left: 5px solid orange; }
-.low { border-left: 5px solid green; }
+.task-card.high {
+    border-left: 5px solid red;
+    background: #ffe5e5;
+}
+
+.task-card.medium {
+    border-left: 5px solid blue;
+    background: #e5f0ff;
+}
+
+.task-card.low {
+    border-left: 5px solid purple;
+    background: #f3e5ff;
+}

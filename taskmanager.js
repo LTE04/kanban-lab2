@@ -80,9 +80,11 @@ function createTaskCard(task) {
     li.setAttribute('data-id', task.id);
     li.classList.add('task-card');
     li.setAttribute('data-priority', task.priority);
+    li.classList.add(task.priority);
 
     const title = document.createElement('span');
     title.textContent = task.title;
+    title.classList.add('task-title');
     li.appendChild(title);
 
     const desc = document.createElement('p');
@@ -237,13 +239,17 @@ function updateTask(taskId, data) {
     card.children[1].textContent = data.description;
     card.children[2].textContent = "Priority: " + data.priority;
     card.children[3].textContent = data.date;
+
+    card.setAttribute('data-priority', data.priority);
+    card.classList.remove('low', 'medium', 'high');
+	card.classList.add(data.priority);
 }
 
 //inline editing
 lists.forEach(list => {
     list.addEventListener('dblclick', function (event) {
 
-        if (event.target.tagName !== 'SPAN') return;
+        if (!event.target.classList.contains('task-title')) return;
 
         const span = event.target;
         const input = document.createElement('input');
@@ -276,6 +282,8 @@ document.getElementById('priority-filter').addEventListener('change', function (
     cards.forEach(card => {
 
         const priority = card.getAttribute('data-priority');
+
+        console.log("CARD:", priority, "FILTER:", value); // debug
 
         if (value === 'all') {
             card.classList.remove('is-hidden');
@@ -316,7 +324,7 @@ function loadSampleTasks() {
             title: 'Finish JavaScript Lab',
             description: 'Complete CRUD operations and event delegation section',
             priority: 'high',
-            date: '2026-04-20',
+            date: '2026-04-12',
             column: 'todo'
         },
         {
@@ -324,7 +332,7 @@ function loadSampleTasks() {
             title: 'Prepare Presentation Slides',
             description: 'Create slides for Chapter 3 demo video',
             priority: 'medium',
-            date: '2026-04-18',
+            date: '2026-04-14',
             column: 'inprogress'
         },
 
@@ -333,7 +341,7 @@ function loadSampleTasks() {
             title: 'Submit Assignment',
             description: 'Upload all files to the learning portal',
             priority: 'low',
-            date: '2026-04-16',
+            date: '2026-04-15',
             column: 'done'
         }
     ];
